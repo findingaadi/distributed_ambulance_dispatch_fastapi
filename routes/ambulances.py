@@ -1,47 +1,48 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from database import get_db
-from models import Assignment, Ambulance
 from utils import authenticate_user
-router = APIRouter()
+from models import Assignment, Patient
 
+router = APIRouter()
 
 @router.get("/view-assignment")
 def view_assignment(
-    ambulance_id: int,
-    db: Session = Depends(get_db),
-    user = Depends(authenticate_user)  # Require login
+    user=Depends(authenticate_user),
+    db: Session = Depends(get_db)
 ):
-    if user.role != "ambulance":
-        raise HTTPException(status_code=403, detail="Access forbidden for this role")
+    if user["role"] != "ambulance":
+        raise HTTPException(status_code=403, detail="Unauthorized access")
 
-    assignment = db.query(Assignment).filter(
-        Assignment.ambulance_id == ambulance_id, Assignment.status == "pending"
-    ).first()
+    # Fetch the assignment for the user's ambulance ID
+    assignment = db.query(Assignment).filter(Assignment.ambulance_id == user["username"]).first()
     if not assignment:
-        raise HTTPException(status_code=404, detail="No assignment found")
+        raise HTTPException(status_code=404, detail="No assignment found for this ambulance")
+
+    patient = db.query(Patient).filter(Patient.patient_id == assignment.patient_id).first()
 
     return {
-        "patient_id": assignment.patient_id,
-        "hospital_id": assignment.hospital_id,
-        "call_details": assignment.call_details,
-        "status": assignment.status
+        "name": patient.name,
+        "address": patient.address,
+        "medical_history": patient.medical_history,
     }
 
-VALID_STATUSES = ["available", "busy"]
+@router.post("/add-notes")
+def add_notes(
+    notes: str,
+    user=Depends(authenticate_user),
+    db: Session = Depends(get_db)
+):
+    if user["role"] != "ambulance":
+        raise HTTPException(status_code=403, detail="Unauthorized access")
 
-@router.post("/update-status")
-def update_status(ambulance_id: int, status: str, db: Session = Depends(get_db)):
-    if status not in VALID_STATUSES:
-        raise HTTPException(status_code=400, detail=f"Invalid status: {status}. Must be one of {VALID_STATUSES}.")
-    
-    ambulance = db.query(Ambulance).filter(Ambulance.ambulance_id == ambulance_id).first()
-    if not ambulance:
-        raise HTTPException(status_code=404, detail="Ambulance not found")
+    # Fetch the assignment for the user's ambulance ID
+    assignment = db.query(Assignment).filter(Assignment.ambulance_id == user["username"]).first()
+    if not assignment:
+        raise HTTPException(status_code=404, detail="No assignment found for this ambulance")
 
-    # Update the ambulance status
-    ambulance.status = status
+    # Append notes to the assignment
+    assignment.status = "notes_added"
+    assignment.notes = notes  # Assuming 'notes' column exists
     db.commit()
-    db.refresh(ambulance)
-
-    return {"message": "Ambulance status updated", "ambulance_id": ambulance.ambulance_id, "new_status": ambulance.status}
+    return {"message": "Notes added successfully"}

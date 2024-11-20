@@ -3,21 +3,17 @@
 <head>
     <title>Ambulance Dashboard</title>
     <link rel="stylesheet" href="/presentation/css/styles.css">
-    <script src="/presentation/js/ambulance.js" defer></script>
+    <script src="/presentation/js/ambulance_dashboard.js" defer></script>
 </head>
 <body>
     <h1>Ambulance Dashboard</h1>
     <button onclick="logout()">Logout</button>
-    <form onsubmit="viewAssignment(event)">
-        <label for="ambulanceId">Enter Ambulance ID:</label>
-        <input type="text" id="ambulanceId" required>
-        <button type="submit">View Assignment</button>
-    </form>
-    <div id="assignmentDetails"></div>
-    <form id="actionForm" style="display:none;" onsubmit="submitActionDetails(event)">
-        <label for="actionDetails">Action Details:</label>
-        <textarea id="actionDetails" required></textarea>
-        <button type="submit">Submit</button>
+    <h2>Assigned Patient</h2>
+    <div id="patientDetails"></div>
+    <form id="actionNotesForm" style="display: none;" onsubmit="submitActionNotes(event)">
+        <label for="actionNotes">Action Notes:</label>
+        <textarea id="actionNotes" required></textarea>
+        <button type="submit">Submit Notes</button>
     </form>
 </body>
 </html>
