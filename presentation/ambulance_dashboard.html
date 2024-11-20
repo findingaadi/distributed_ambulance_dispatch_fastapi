@@ -6,14 +6,16 @@
     <script src="/presentation/js/ambulance_dashboard.js" defer></script>
 </head>
 <body>
-    <h1>Ambulance Dashboard</h1>
+    <h1>Ambulances Dashboard</h1>
     <button onclick="logout()">Logout</button>
     <h2>Assigned Patient</h2>
     <div id="patientDetails"></div>
+    <div id="hospitalDetails"></div> <!-- Added this for hospital details -->
+    <div id="callDetails"></div> <!-- Added this for call details -->
     <form id="actionNotesForm" style="display: none;" onsubmit="submitActionNotes(event)">
-        <label for="actionNotes">Action Notes:</label>
-        <textarea id="actionNotes" required></textarea>
+        <textarea id="actionNotes" placeholder="Enter action notes here"></textarea>
         <button type="submit">Submit Notes</button>
     </form>
 </body>
 </html>
+

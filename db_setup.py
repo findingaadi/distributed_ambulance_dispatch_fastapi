@@ -1,45 +1,92 @@
-# from database import SessionLocal
-# from models import User, Patient, Hospital, Ambulance
+from database import Base, engine, SessionLocal
+from models import User, Patient, Hospital, Ambulance, Assignment
 
-# db = SessionLocal()
+# Create tables
+print("Creating database tables...")
+Base.metadata.create_all(bind=engine)
+print("Database tables created successfully.")
+db = SessionLocal()
+try:
+    print("Adding users to the database")
+    
+    db.add(User(username="headquarter_admin", password="admin", role="headquarter"))
+    
+    db.add(User(username="city_hospital", password="pwhospital", role="hospital"))
+    db.add(User(username="modern_hospital", password="pwhospital", role="hospital"))
+    db.add(User(username="kathmandu_hospital", password="pwhospital", role="hospital"))
+    db.add(User(username="bhaktapur_hospital", password="pwhospital", role="hospital"))
+    db.add(User(username="edinburgh_hospital", password="pwhospital", role="hospital"))
+    db.add(User(username="ram_hospital", password="pwhospital", role="hospital"))
+    db.add(User(username="raju_hospital", password="pwhospital", role="hospital"))
+    db.add(User(username="shyam_hospital", password="pwhospital", role="hospital"))
+    db.add(User(username="satyam_hospital", password="pwhospital", role="hospital"))
+    db.add(User(username="greencity_hospital", password="pwhospital", role="hospital"))
+    db.add(User(username="ayurvedic_hospital", password="pwhospital", role="hospital"))
+    db.add(User(username="homeopathic_hospital", password="pwhospital", role="hospital"))
+    db.add(User(username="cardiac_hospital", password="pwhospital", role="hospital"))
+    db.add(User(username="eye_hospital", password="pwhospital", role="hospital"))
+    db.add(User(username="trauma_hospital", password="pwhospital", role="hospital"))
+    db.add(User(username="victoria_hospital", password="pwhospital", role="hospital"))
+    db.add(User(username="royal_hospital", password="pwhospital", role="hospital"))
+    db.add(User(username="queen_hospital", password="pwhospital", role="hospital"))
+    db.add(User(username="pokhara_hospital", password="pwhospital", role="hospital"))
+    db.add(User(username="everest_hospital", password="pwhospital", role="hospital"))
 
-# # Add initial users
-# db.add(User(username="hq_admin", password="securepassword1", role="headquarter"))
-# db.add(User(username="ambulance_driver_1", password="securepassword2", role="ambulance"))
-# db.add(User(username="hospital_staff_1", password="securepassword3", role="hospital"))
+    db.add(User(username="ambulance_1", password="pwambulance", role="ambulance"))
+    db.add(User(username="ambulance_2", password="pwambulance", role="ambulance"))
+    db.add(User(username="ambulance_3", password="pwambulance", role="ambulance"))
+    db.add(User(username="ambulance_4", password="pwambulance", role="ambulance"))
+    db.add(User(username="ambulance_5", password="pwambulance", role="ambulance"))
+    
 
-# # Add initial patients
-# db.add(Patient(nhs_number="123456789", name="John Doe", address="123 Elm Street", medical_history="Diabetic, Hypertension"))
-# db.add(Patient(nhs_number="987654321", name="Jane Smith", address="456 Oak Avenue", medical_history="Asthma, Allergies"))
+    print("Adding initial patients...")
+    db.add(Patient(nhs_number="SX8926481", name="Aadi Aryal", address="12 Elizabeth Street, KY114AZ", medical_history="Diabetic and hypertension. Hay fever; seasonal"))
+    db.add(Patient(nhs_number="JH0947362", name="Bandu Acharya", address="4 Woodmill Avenue, KY115HU", medical_history="Asthma and allergies"))
+    db.add(Patient(nhs_number="LK5610384", name="Chetan Basnet", address="25 Maple Grove, EH165RL", medical_history="Chronic back pain; previous surgery"))
+    db.add(Patient(nhs_number="PR4789302", name="Dev Gurung", address="30 High Street, EH93NW", medical_history="Diabetic Type II, gout"))
+    db.add(Patient(nhs_number="QR6749301", name="Ekta Shrestha", address="15 King Street, EH112YH", medical_history="High blood pressure, migraines"))
+    db.add(Patient(nhs_number="NM0239481", name="Farhan Sheikh", address="20 Meadow Lane, EH75DH", medical_history="Asthma and seasonal allergies"))
+    db.add(Patient(nhs_number="TY4905673", name="Gita Koirala", address="8 Princes Street, EH12BN", medical_history="Arthritis and low vision"))
+    db.add(Patient(nhs_number="OP3495762", name="Hari Poudel", address="3 Queen's Drive, EH68BR", medical_history="Heart condition; post-stroke care"))
+    db.add(Patient(nhs_number="GH2047895", name="Ishaan Tamang", address="42 Castlehill, EH13JL", medical_history="Obesity-related issues"))
+    db.add(Patient(nhs_number="YU5064732", name="Jyoti Rana", address="18 Elm Row, EH75BY", medical_history="Post-operative recovery; appendix surgery"))
+    db.add(Patient(nhs_number="RT8937465", name="Krishna Thapa", address="5 Regent Road, EH12BN", medical_history="Diabetes and kidney stone history"))
 
-# # Add initial hospitals
-# db.add(Hospital(name="General Hospital", max_capacity=200, current_capacity=50))
-# db.add(Hospital(name="City Hospital", max_capacity=150, current_capacity=120))
+    print("Adding initial hospitals...")
+    db.add(Hospital(hospital_id="city_hospital", address="City Hospital, Edinburgh, EH1 1AA", name="City Hospital", max_capacity=300, current_capacity=50))
+    db.add(Hospital(hospital_id="modern_hospital", address="Modern Hospital, Edinburgh, EH2 2BB", name="Modern Hospital", max_capacity=280, current_capacity=80))
+    db.add(Hospital(hospital_id="kathmandu_hospital", address="Kathmandu Hospital, Edinburgh, EH3 3CC", name="Kathmandu Hospital", max_capacity=260, current_capacity=90))
+    db.add(Hospital(hospital_id="bhaktapur_hospital", address="Bhaktapur Hospital, Edinburgh, EH4 4DD", name="Bhaktapur Hospital", max_capacity=240, current_capacity=100))
+    db.add(Hospital(hospital_id="edinburgh_hospital", address="Edinburgh Hospital, Edinburgh, EH5 5EE", name="Edinburgh Hospital", max_capacity=220, current_capacity=110))
+    db.add(Hospital(hospital_id="ram_hospital", address="Ram Hospital, Edinburgh, EH6 6FF", name="Ram Hospital", max_capacity=200, current_capacity=120))
+    db.add(Hospital(hospital_id="raju_hospital", address="Raju Hospital, Edinburgh, EH7 7GG", name="Raju Hospital", max_capacity=180, current_capacity=130))
+    db.add(Hospital(hospital_id="shyam_hospital", address="Shyam Hospital, Edinburgh, EH8 8HH", name="Shyam Hospital", max_capacity=160, current_capacity=140))
+    db.add(Hospital(hospital_id="satyam_hospital", address="Satyam Hospital, Edinburgh, EH9 9II", name="Satyam Hospital", max_capacity=140, current_capacity=120))
+    db.add(Hospital(hospital_id="greencity_hospital", address="Green City Hospital, Edinburgh, EH10 1JJ", name="Green City Hospital", max_capacity=120, current_capacity=100))
+    db.add(Hospital(hospital_id="ayurvedic_hospital", address="Ayurvedic Hospital, Edinburgh, EH11 2KK", name="Ayurvedic Hospital", max_capacity=100, current_capacity=80))
+    db.add(Hospital(hospital_id="homeopathic_hospital", address="Homeopathic Hospital, Edinburgh, EH12 3LL", name="Homeopathic Hospital", max_capacity=90, current_capacity=70))
+    db.add(Hospital(hospital_id="cardiac_hospital", address="Cardiac Hospital, Edinburgh, EH13 4MM", name="Cardiac Hospital", max_capacity=80, current_capacity=60))
+    db.add(Hospital(hospital_id="eye_hospital", address="Eye Hospital, Edinburgh, EH14 5NN", name="Eye Hospital", max_capacity=70, current_capacity=50))
+    db.add(Hospital(hospital_id="trauma_hospital", address="Trauma Hospital, Edinburgh, EH15 6OO", name="Trauma Hospital", max_capacity=60, current_capacity=40))
+    db.add(Hospital(hospital_id="victoria_hospital", address="Victoria Hospital, Edinburgh, EH16 7PP", name="Victoria Hospital", max_capacity=50, current_capacity=30))
+    db.add(Hospital(hospital_id="royal_hospital", address="Royal Hospital, Edinburgh, EH17 8QQ", name="Royal Hospital", max_capacity=40, current_capacity=20))
+    db.add(Hospital(hospital_id="queen_hospital", address="Queen Hospital, Edinburgh, EH18 9RR", name="Queen Hospital", max_capacity=30, current_capacity=10))
+    db.add(Hospital(hospital_id="pokhara_hospital", address="Pokhara Hospital, Edinburgh, EH19 1SS", name="Pokhara Hospital", max_capacity=20, current_capacity=5))
+    db.add(Hospital(hospital_id="everest_hospital", address="Everest Hospital, Edinburgh, EH20 2TT", name="Everest Hospital", max_capacity=10, current_capacity=2))
 
-# # Add initial ambulances
-# db.add(Ambulance(status="available"))
-# db.add(Ambulance(status="available"))
+    print("Adding initial ambulances...")
+    db.add(Ambulance(ambulance_id="ambulance_1", status="available"))
+    db.add(Ambulance(ambulance_id="ambulance_2", status="available"))
+    db.add(Ambulance(ambulance_id="ambulance_3", status="available"))
+    db.add(Ambulance(ambulance_id="ambulance_4", status="available"))
+    db.add(Ambulance(ambulance_id="ambulance_5", status="available"))
 
-# db.commit()
-# db.close()
+    db.commit()
+    print("Data added successfully")
 
-# print("Initial data added.")
-
-# from database import SessionLocal
-# from models import Assignment
-
-# db = SessionLocal()
-
-# # Add a test assignment
-# db.add(Assignment(
-#     patient_id=1,
-#     ambulance_id=1,
-#     hospital_id=1,
-#     call_details="Test assignment for ambulance 1",
-#     status="pending"
-# ))
-
-# db.commit()
-# db.close()
-
-# print("Test assignment added.")
+except Exception as e:
+    print(f"Error while inerting data {e}")
+    db.rollback()
+finally:
+    db.close()
+    print("session closed")
