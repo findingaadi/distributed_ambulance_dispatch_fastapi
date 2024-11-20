@@ -8,18 +8,31 @@
 <body>
     <h1>Headquarters Dashboard</h1>
     <button onclick="logout()">Logout</button>
-    <form onsubmit="searchPatient(event)">
-        <label for="nhsNumber">Enter NHS Number:</label>
-        <input type="text" id="nhsNumber" required>
-        <button type="submit">Search Patient</button>
-    </form>
-    <div id="patientDetails"></div>
-    <form id="assignmentForm" style="display:none;" onsubmit="assignPatient(event)">
-        <label for="callDetails">Call Details:</label>
-        <textarea id="callDetails" required></textarea>
-        <label for="ambulanceId">Ambulance ID:</label>
-        <input type="number" id="ambulanceId" required>
-        <button type="submit">Assign</button>
-    </form>
+
+<!-- Search Patient Section -->
+<h2>Search Patient</h2>
+<form onsubmit="searchPatient(event)">
+    <label for="nhsNumber">Enter NHS Number:</label>
+    <input type="text" id="nhsNumber" required>
+    <button type="submit">Search Patient</button>
+</form>
+<div id="patientDetails"></div>
+
+<!-- Available Ambulances Section -->
+<h2>Select Ambulance</h2>
+<div id="availableAmbulances" style="display: none;">
+    <select id="ambulanceId">
+        <!-- Options will be populated dynamically -->
+    </select>
+</div>
+
+<!-- Create Assignment Section -->
+<h2>Create Assignment</h2>
+<form id="assignmentForm" onsubmit="createAssignment(event)" style="display: none;">
+    <label for="callDetails">Call Details:</label>
+    <textarea id="callDetails" required></textarea>
+    <button type="submit">Create Assignment</button>
+</form>
+<div id="assignmentStatus"></div>
 </body>
 </html>

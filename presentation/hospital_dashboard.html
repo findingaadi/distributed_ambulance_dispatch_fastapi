@@ -3,16 +3,19 @@
 <head>
     <title>Hospital Dashboard</title>
     <link rel="stylesheet" href="/presentation/css/styles.css">
-    <script src="/presentation/js/hospital.js" defer></script>
+    <script src="/presentation/js/hospital_dashboard.js" defer></script>
 </head>
 <body>
     <h1>Hospital Dashboard</h1>
     <button onclick="logout()">Logout</button>
-    <form onsubmit="viewIncomingPatients(event)">
-        <label for="hospitalId">Enter Hospital ID:</label>
-        <input type="number" id="hospitalId" required>
-        <button type="submit">View Incoming Patients</button>
+    <h2>Assignments</h2>
+    <div id="assignments"></div>
+    <form id="updateRecordForm" style="display: none;" onsubmit="updatePatientRecord(event)">
+        <label for="callDetails">Call-Out Details:</label>
+        <textarea id="callDetails" required></textarea>
+        <label for="timeSpent">Time Spent (minutes):</label>
+        <input type="number" id="timeSpent" required>
+        <button type="submit">Update Record</button>
     </form>
-    <div id="patientDetails"></div>
 </body>
 </html>

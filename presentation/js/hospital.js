@@ -1,52 +1,40 @@
-async function viewIncomingPatients(event) {
-    event.preventDefault();
-    const hospitalId = document.getElementById("hospitalId").value;
-
-    const response = await fetch(`/hospitals/incoming-patients?hospital_id=${hospitalId}`, {
-        headers: { Authorization: `Bearer ${sessionToken}` }
-    });
-    const data = await response.json();
-
-    if (response.status === 200) {
-        document.getElementById("patientDetails").innerHTML = `
-            <h2>Incoming Patients</h2>
-            ${data.map(patient => `
-                <div>
-                    <p>Assignment ID: ${patient.assignment_id}</p>
-                    <p>Patient ID: ${patient.patient_id}</p>
-                    <p>Ambulance ID: ${patient.ambulance_id}</p>
-                    <p>Call Details: ${patient.call_details}</p>
-                    <p>Action Notes: ${patient.action_details || "No notes added yet"}</p>
-                </div>
-            `).join("")}
-        `;
-    } else {
-        alert(`Error: ${data.detail}`);
-    }
-}
-
 async function login(event) {
     event.preventDefault();
+
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
 
-    const response = await fetch("/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: `username=${username}&password=${password}`
-    });
-    const data = await response.json();
+    try {
+        // Send login request
+        const response = await fetch("/auth/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: new URLSearchParams({
+                username: username,
+                password: password
+            })
+        });
 
-    if (response.status === 200) {
-        sessionToken = data.session_token;
-        userRole = data.role;
+        if (response.ok) {
+            const data = await response.json();
+            console.log("Login successful:", data);
 
-        if (userRole === "hospital") {
+            // Store session token and user role in sessionStorage
+            sessionStorage.setItem("sessionToken", data.token);
+            sessionStorage.setItem("userRole", data.role);
+            console.log("Token:", sessionStorage.getItem("sessionToken"));
+            console.log("Role:", sessionStorage.getItem("userRole"));
+
+            // Redirect to the dashboard
             window.location.href = "/presentation/hospital_dashboard.html";
         } else {
-            alert("Invalid login for hospital.");
+            const error = await response.json();
+            alert(`Error: ${error.detail}`);
         }
-    } else {
-        alert(`Error: ${data.detail}`);
+    } catch (error) {
+        console.error("Login error:", error);
+        alert("An error occurred during login. Please try again.");
     }
 }
