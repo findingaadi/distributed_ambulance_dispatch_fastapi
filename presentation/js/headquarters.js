@@ -1,40 +1,41 @@
-async function searchPatient(event) {
+// Login function
+async function login(event) {
     event.preventDefault();
-    const nhsNumber = document.getElementById("nhsNumber").value;
 
-    const response = await fetch(`/hq/search-patient?nhs_number=${nhsNumber}`, {
-        headers: { Authorization: `Bearer ${sessionToken}` }
-    });
-    const data = await response.json();
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
 
-    if (response.status === 200) {
-        document.getElementById("patientDetails").innerHTML = `
-            <h2>Patient Found</h2>
-            <p>Name: ${data.name}</p>
-            <p>Address: ${data.address}</p>
-            <p>Medical History: ${data.medical_history}</p>
-        `;
-        document.getElementById("assignmentForm").style.display = "block";
-    } else {
-        alert(`Error: ${data.detail}`);
-    }
-}
+    try {
+        // Send login request
+        const response = await fetch("/auth/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: new URLSearchParams({
+                username: username,
+                password: password
+            })
+        });
 
-async function assignPatient(event) {
-    event.preventDefault();
-    const callDetails = document.getElementById("callDetails").value;
-    const ambulanceId = parseInt(document.getElementById("ambulanceId").value);
+        if (response.ok) {
+            const data = await response.json();
+            console.log("Login successful:", data);
 
-    const response = await fetch("/hq/assign-patient", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${sessionToken}` },
-        body: JSON.stringify({ call_details: callDetails, ambulance_id: ambulanceId })
-    });
-    const data = await response.json();
+            // Store session token and user role in sessionStorage
+            sessionStorage.setItem("sessionToken", data.token);
+            sessionStorage.setItem("userRole", data.role);
+            console.log("Token:", sessionStorage.getItem("sessionToken"));
+            console.log("Role:", sessionStorage.getItem("userRole"));
 
-    if (response.status === 200) {
-        alert("Patient assigned successfully!");
-    } else {
-        alert(`Error: ${data.detail}`);
+            // Redirect to the dashboard
+            window.location.href = "/presentation/headquarters_dashboard.html";
+        } else {
+            const error = await response.json();
+            alert(`Error: ${error.detail}`);
+        }
+    } catch (error) {
+        console.error("Login error:", error);
+        alert("An error occurred during login. Please try again.");
     }
 }

@@ -16,10 +16,36 @@ async function viewIncomingPatients(event) {
                     <p>Patient ID: ${patient.patient_id}</p>
                     <p>Ambulance ID: ${patient.ambulance_id}</p>
                     <p>Call Details: ${patient.call_details}</p>
-                    <p>Status: ${patient.status}</p>
+                    <p>Action Notes: ${patient.action_details || "No notes added yet"}</p>
                 </div>
             `).join("")}
         `;
+    } else {
+        alert(`Error: ${data.detail}`);
+    }
+}
+
+async function login(event) {
+    event.preventDefault();
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+
+    const response = await fetch("/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: `username=${username}&password=${password}`
+    });
+    const data = await response.json();
+
+    if (response.status === 200) {
+        sessionToken = data.session_token;
+        userRole = data.role;
+
+        if (userRole === "hospital") {
+            window.location.href = "/presentation/hospital_dashboard.html";
+        } else {
+            alert("Invalid login for hospital.");
+        }
     } else {
         alert(`Error: ${data.detail}`);
     }

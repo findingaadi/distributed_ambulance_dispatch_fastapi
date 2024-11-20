@@ -1,18 +1,20 @@
-from fastapi import HTTPException, Depends
-from database import get_db
-from models import User
-from routes.auth import sessions  # Import the sessions dictionary from auth.py
+from fastapi import HTTPException, Header, Depends
+from session_store import get_session
 
-def authenticate_user(token: str, db=Depends(get_db)):
-    """
-    Validates the session token and retrieves the authenticated user.
-    """
-    user_id = sessions.get(token)
-    if not user_id:
-        raise HTTPException(status_code=401, detail="Invalid or expired token")
+def get_current_token(authorization: str = Header(...)):
+    # Extract token from Authorization header
+    if not authorization.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Invalid token format")
+    token = authorization.split("Bearer ")[1]
+    print(f"Authorization header received: {authorization}")
+    print(f"Extracted token: {token}")
+    return token
 
-    user = db.query(User).filter(User.user_id == user_id).first()
-    if not user:
-        raise HTTPException(status_code=401, detail="Invalid user")
-
-    return user  # Return the authenticated user object
+def authenticate_user(token: str = Depends(get_current_token)):
+    # Validate session token
+    session = get_session(token)
+    if not session:
+        print("Invalid or expired token!")
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    print(f"Authenticated user: {session}")
+    return session

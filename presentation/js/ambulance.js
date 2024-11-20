@@ -37,3 +37,29 @@ async function submitActionDetails(event) {
         alert(`Error: ${data.detail}`);
     }
 }
+
+async function login(event) {
+    event.preventDefault();
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+
+    const response = await fetch("/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: `username=${username}&password=${password}`
+    });
+    const data = await response.json();
+
+    if (response.status === 200) {
+        sessionToken = data.session_token;
+        userRole = data.role;
+
+        if (userRole === "ambulance") {
+            window.location.href = "/presentation/ambulance_dashboard.html";
+        } else {
+            alert("Invalid login for ambulance.");
+        }
+    } else {
+        alert(`Error: ${data.detail}`);
+    }
+}

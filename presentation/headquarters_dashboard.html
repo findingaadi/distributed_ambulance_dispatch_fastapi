@@ -3,7 +3,7 @@
 <head>
     <title>Headquarters Dashboard</title>
     <link rel="stylesheet" href="/presentation/css/styles.css">
-    <script src="/presentation/js/headquarters.js" defer></script>
+    <script src="/presentation/js/headquarters_dashboard.js" defer></script>
 </head>
 <body>
     <h1>Headquarters Dashboard</h1>
@@ -15,13 +15,11 @@
     </form>
     <div id="patientDetails"></div>
     <form id="assignmentForm" style="display:none;" onsubmit="assignPatient(event)">
-        <h2>Assign Patient</h2>
         <label for="callDetails">Call Details:</label>
         <textarea id="callDetails" required></textarea>
         <label for="ambulanceId">Ambulance ID:</label>
         <input type="number" id="ambulanceId" required>
         <button type="submit">Assign</button>
     </form>
-    <div id="output"></div>
 </body>
 </html>

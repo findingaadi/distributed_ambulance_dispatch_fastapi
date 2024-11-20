@@ -1,13 +1,11 @@
-import secrets
-from fastapi import APIRouter, Depends, HTTPException, Form
+from fastapi import APIRouter, Form, HTTPException, Depends
 from sqlalchemy.orm import Session
-from database import get_db
 from models import User
+from database import get_db
+import secrets
+from session_store import create_session, delete_session
 
 router = APIRouter()
-
-# Simulated session storage (use a database or Redis for production)
-sessions = {}
 
 @router.post("/login")
 def login(
@@ -15,20 +13,20 @@ def login(
     password: str = Form(...),
     db: Session = Depends(get_db)
 ):
+    # Check user credentials
     user = db.query(User).filter(User.username == username).first()
     if not user or user.password != password:
         raise HTTPException(status_code=401, detail="Invalid username or password")
-    
-    # Generate a session token
-    token = secrets.token_hex(16)
-    sessions[token] = {"user_id": user.user_id, "role": user.role}
 
-    return {"message": "Login successful", "session_token": token, "role": user.role}
+    # Generate a session token
+    session_token = secrets.token_hex(16)
+    create_session(session_token, {"username": user.username, "role": user.role})
+
+    print(f"User {user.username} logged in with token {session_token}")
+    return {"token": session_token, "role": user.role}
 
 
 @router.get("/logout")
 def logout(token: str):
-    if token in sessions:
-        del sessions[token]
-        return {"message": "Logout successful"}
-    raise HTTPException(status_code=401, detail="Invalid token")
+    delete_session(token)
+    return {"message": "Logged out successfully"}
