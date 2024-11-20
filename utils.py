@@ -1,19 +1,18 @@
-import uuid
+from fastapi import HTTPException, Depends
+from database import get_db
+from models import User
+from routes.auth import sessions  # Import the sessions dictionary from auth.py
 
-# Mock session store
-SESSIONS = {}
+def authenticate_user(token: str, db=Depends(get_db)):
+    """
+    Validates the session token and retrieves the authenticated user.
+    """
+    user_id = sessions.get(token)
+    if not user_id:
+        raise HTTPException(status_code=401, detail="Invalid or expired token")
 
-def create_session(user_id):
-    """Create a session and return the session token."""
-    session_token = str(uuid.uuid4())
-    SESSIONS[session_token] = user_id
-    return session_token
+    user = db.query(User).filter(User.user_id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=401, detail="Invalid user")
 
-def get_user_from_session(token):
-    """Retrieve user ID from session token."""
-    return SESSIONS.get(token)
-
-def delete_session(token):
-    """Delete a session."""
-    if token in SESSIONS:
-        del SESSIONS[token]
+    return user  # Return the authenticated user object

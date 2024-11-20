@@ -1,7 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, Form
 from sqlalchemy.orm import Session
 from database import get_db
+from utils import authenticate_user
 from models import Patient, Ambulance, Hospital, Assignment
+
 
 router = APIRouter()
 
@@ -55,8 +57,17 @@ def assign_patient(
         "ambulance_id": ambulance.ambulance_id
     }
 
+
+
+
 @router.get("/dashboard")
-def dashboard(db: Session = Depends(get_db)):
+def dashboard(
+    db: Session = Depends(get_db),
+    user = Depends(authenticate_user)  # Require login
+):
+    if user.role != "headquarter":
+        raise HTTPException(status_code=403, detail="Access forbidden for this role")
+
     assignments = db.query(Assignment).all()
     ambulances = db.query(Ambulance).all()
     hospitals = db.query(Hospital).all()

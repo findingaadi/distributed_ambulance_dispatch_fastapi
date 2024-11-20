@@ -2,14 +2,25 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from database import get_db
 from models import Assignment, Hospital
-
+from utils import authenticate_user
 router = APIRouter()
 
+
 @router.get("/incoming-patients")
-def incoming_patients(hospital_id: int, db: Session = Depends(get_db)):
-    assignments = db.query(Assignment).filter(Assignment.hospital_id == hospital_id, Assignment.status == "pending").all()
+def incoming_patients(
+    hospital_id: int,
+    db: Session = Depends(get_db),
+    user = Depends(authenticate_user)  # Require login
+):
+    if user.role != "hospital":
+        raise HTTPException(status_code=403, detail="Access forbidden for this role")
+
+    assignments = db.query(Assignment).filter(
+        Assignment.hospital_id == hospital_id, Assignment.status == "pending"
+    ).all()
     if not assignments:
         raise HTTPException(status_code=404, detail="No incoming patients found")
+
     return [
         {
             "assignment_id": a.assignment_id,
@@ -20,6 +31,7 @@ def incoming_patients(hospital_id: int, db: Session = Depends(get_db)):
         }
         for a in assignments
     ]
+
 
 VALID_STATUSES = ["pending", "completed"]
 

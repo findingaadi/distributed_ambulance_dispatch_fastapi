@@ -25,21 +25,21 @@
 
 # print("Initial data added.")
 
-from database import SessionLocal
-from models import Assignment
+# from database import SessionLocal
+# from models import Assignment
 
-db = SessionLocal()
+# db = SessionLocal()
 
-# Add a test assignment
-db.add(Assignment(
-    patient_id=1,
-    ambulance_id=1,
-    hospital_id=1,
-    call_details="Test assignment for ambulance 1",
-    status="pending"
-))
+# # Add a test assignment
+# db.add(Assignment(
+#     patient_id=1,
+#     ambulance_id=1,
+#     hospital_id=1,
+#     call_details="Test assignment for ambulance 1",
+#     status="pending"
+# ))
 
-db.commit()
-db.close()
+# db.commit()
+# db.close()
 
-print("Test assignment added.")
+# print("Test assignment added.")

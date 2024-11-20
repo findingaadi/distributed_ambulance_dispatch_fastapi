@@ -2,14 +2,23 @@
 <html>
 <head>
     <title>Ambulance Dashboard</title>
-    <link rel="stylesheet" href="/static/css/styles.css">
-    <script src="/static/js/app.js" defer></script>
+    <link rel="stylesheet" href="/presentation/css/styles.css">
+    <script src="/presentation/js/ambulance.js" defer></script>
 </head>
 <body>
     <h1>Ambulance Dashboard</h1>
-    <button onclick="viewAssignment()">View Assignment</button>
-    <button onclick="updateStatus('available')">Mark as Available</button>
-
+    <button onclick="logout()">Logout</button>
+    <form onsubmit="viewAssignment(event)">
+        <label for="ambulanceId">Enter Ambulance ID:</label>
+        <input type="text" id="ambulanceId" required>
+        <button type="submit">View Assignment</button>
+    </form>
+    <div id="assignmentDetails"></div>
+    <form id="actionForm" style="display:none;" onsubmit="submitActionDetails(event)">
+        <h2>Action Details</h2>
+        <textarea id="actionDetails" placeholder="Describe actions taken" required></textarea>
+        <button type="submit">Submit</button>
+    </form>
     <div id="output"></div>
 </body>
 </html>
