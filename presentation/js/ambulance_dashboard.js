@@ -103,50 +103,42 @@ if (!sessionToken || userRole !== "ambulance") {
 }
 
 async function fetchAssignedPatient() {
-    try {
-        const response = await fetch("/ambulances/view-assignment", {
-            headers: {
-                Authorization: `Bearer ${sessionToken}`
-            }
-        });
-
-        if (response.ok) {
-            const data = await response.json();
-            console.log("Fetched assignment data:", data);
-
-            // Render patient details
-            document.getElementById("patientDetails").innerHTML = `
-                <h3>Patient Details</h3>
-                <p>Name: ${data.patient_details.name}</p>
-                <p>Address: ${data.patient_details.address}</p>
-                <p>Medical History: ${data.patient_details.medical_history}</p>
-            `;
-
-            // Render hospital details
-            document.getElementById("hospitalDetails").innerHTML = `
-                <h3>Hospital Details</h3>
-                <p>Name: ${data.hospital_details.name}</p>
-                <p>Address: ${data.hospital_details.address}</p>
-            `;
-
-            // Render call details
-            document.getElementById("callDetails").innerHTML = `
-                <h3>Call Details</h3>
-                <p>${data.call_details}</p>
-            `;
-
-            // Show the action notes form
-            document.getElementById("actionNotesForm").style.display = "block";
-        } else {
-            const error = await response.json();
-            console.error("Error fetching assignment:", error);
-            alert("No patient assignment found!");
+    const response = await fetch("/ambulances/view-assignment", {
+        headers: {
+            Authorization: `Bearer ${sessionToken}`
         }
-    } catch (error) {
-        console.error("Error fetching assignment:", error);
-        alert("Failed to load assignment details.");
+    });
+
+    if (response.ok) {
+        const data = await response.json();
+        document.getElementById("patientDetails").innerHTML = `
+            <h3>Patient Details</h3>
+            <p>Name: ${data.patient_details.name}</p>
+            <p>Address: ${data.patient_details.address}</p>
+            <p>Medical History: ${data.patient_details.medical_history}</p>
+        `;
+        document.getElementById("hospitalDetails").innerHTML = `
+            <h3>Hospital Details</h3>
+            <p>Name: ${data.hospital_details.name}</p>
+            <p>Address: ${data.hospital_details.address}</p>
+        `;
+        document.getElementById("callDetails").innerHTML = `
+            <h3>Call Details</h3>
+            <p>${data.call_details}</p>
+        `;
+        document.getElementById("actionNotesForm").style.display = "block";
+    } else if (response.status === 404) {
+        document.getElementById("patientDetails").innerHTML = `
+            <p>No active assignments found.</p>
+        `;
+        document.getElementById("hospitalDetails").innerHTML = "";
+        document.getElementById("callDetails").innerHTML = "";
+        document.getElementById("actionNotesForm").style.display = "none";
+    } else {
+        alert("Failed to fetch assignments.");
     }
 }
+
 
 fetchAssignedPatient();
 

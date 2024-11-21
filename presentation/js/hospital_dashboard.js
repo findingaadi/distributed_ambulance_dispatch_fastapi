@@ -87,7 +87,7 @@ async function updateAssignment(event) {
             const result = await response.json();
             alert("Assignment updated successfully!");
             console.log("Response:", result); // Debugging log
-            document.getElementById("updateRecordForm").reset();
+            // document.getElementById("updateRecordForm").reset();
             fetchAssignments(); // Refresh the dashboard
         } else {
             const error = await response.json();

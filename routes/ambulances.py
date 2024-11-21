@@ -13,7 +13,7 @@ def view_assignment(
     db: Session = Depends(get_db)
 ):
     # Fetch the assignment
-    assignment = db.query(Assignment).filter(Assignment.ambulance_id == user["username"]).first()
+    assignment = db.query(Assignment).filter(Assignment.ambulance_id == user["username"],Assignment.status != "completed", Assignment.status != "received_patient").first()
     if not assignment:
         raise HTTPException(status_code=404, detail="No assignment found for this ambulance")
 
