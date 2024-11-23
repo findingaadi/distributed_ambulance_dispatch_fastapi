@@ -2,8 +2,136 @@
 <html>
 <head>
     <title>Headquarters Dashboard</title>
-    <link rel="stylesheet" href="/presentation/css/styles.css">
     <script src="/presentation/js/headquarters_dashboard.js" defer></script>
+    <style>
+        /* General Reset */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background: #f4f7fa;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: #007bff;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin: 20px 0 10px;
+}
+
+button {
+    padding: 10px 15px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+/* Form Styling */
+form {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+input[type="text"], textarea, select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    outline: none;
+    background: #f9f9f9;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]:focus, textarea:focus, select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Cards for Display Sections */
+#patientDetails, #assignmentStatus {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    width: 100%;
+    max-width: 600px;
+    margin-top: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#patientDetails p, #assignmentStatus p {
+    font-size: 1rem;
+    color: #666;
+}
+
+/* Hide Sections Dynamically */
+#availableAmbulances, #assignmentForm {
+    display: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    form {
+        padding: 15px;
+    }
+
+    button {
+        font-size: 0.9rem;
+    }
+}
+
+    </style>
 </head>
 <body>
     <h1>Headquarters Dashboard</h1>
@@ -33,6 +161,5 @@
     <textarea id="callDetails" required></textarea>
     <button type="submit">Create Assignment</button>
 </form>
-<div id="assignmentStatus"></div>
 </body>
 </html>

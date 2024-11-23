@@ -13,12 +13,12 @@ def login(
     password: str = Form(...),
     db: Session = Depends(get_db)
 ):
-    # Check user credentials
+    #checks user credentials
     user = db.query(User).filter(User.username == username).first()
     if not user or user.password != password:
         raise HTTPException(status_code=401, detail="Invalid username or password")
 
-    # Generate a session token
+    #to generate a session token
     session_token = secrets.token_hex(16)
     create_session(session_token, {"username": user.username, "role": user.role})
 

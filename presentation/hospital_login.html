@@ -4,6 +4,71 @@
     <title>Hospital Login</title>
     <link rel="stylesheet" href="/presentation/css/styles.css">
     <script src="/presentation/js/hospital.js" defer></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom right, #10ca6d, #045737);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        form {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 400px;
+        }
+        label {
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1.5rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            outline: none;
+            background: rgba(255, 255, 255, 0.8);
+        }
+        input:focus {
+            box-shadow: 0 0 5px rgba(0, 128, 255, 0.8);
+        }
+        button {
+            width: 100%;
+            padding: 0.8rem;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #fff;
+            background: #2a9df4;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background: #1c7ecb;
+        }
+        #output {
+            margin-top: 1rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #ffdfdf;
+        }
+
+    </style>
 </head>
 <body>
     <h1>Hospital Login</h1>

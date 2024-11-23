@@ -1,17 +1,107 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ambulance Login</title>
-    <link rel="stylesheet" href="/presentation/css/styles.css">
     <script src="/presentation/js/ambulance.js" defer></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom right, #f57c00, #ffcc80);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 0 20px;
+        }
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        form {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 360px;
+        }
+        label {
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: #fff; 
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            outline: none;
+            background: rgba(255, 255, 255, 0.9);
+            box-sizing: border-box;
+        }
+        input:focus {
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.7);
+        }
+        button {
+            width: 100%;
+            padding: 0.8rem;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #fff;
+            background: #0277bd;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background: #01579b;
+        }
+        #output {
+            margin-top: 1rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #ffdede;
+        }
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            form {
+                padding: 1rem;
+            }
+            label {
+                font-size: 0.9rem;
+            }
+            input, button {
+                font-size: 0.9rem;
+                padding: 0.6rem;
+            }
+            #output {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <h1>Ambulance Login</h1>
     <form onsubmit="login(event)">
         <label for="username">Username:</label>
-        <input type="text" id="username" required>
+        <input type="text" id="username" placeholder="Enter your username" required>
         <label for="password">Password:</label>
-        <input type="password" id="password" required>
+        <input type="password" id="password" placeholder="Enter your password" required>
         <button type="submit">Login</button>
     </form>
     <div id="output"></div>

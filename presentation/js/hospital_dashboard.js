@@ -1,5 +1,3 @@
-console.log("hospital_dashboard.js loaded");
-
 document.addEventListener("DOMContentLoaded", () => {
     console.log("DOM fully loaded and parsed");
 

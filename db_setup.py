@@ -1,14 +1,10 @@
 from database import Base, engine, SessionLocal
 from models import User, Patient, Hospital, Ambulance, Assignment
-
-# Create tables
-print("Creating database tables...")
+print("Creating database tables")
 Base.metadata.create_all(bind=engine)
-print("Database tables created successfully.")
+print("Database tables created successfully")
 db = SessionLocal()
-try:
-    print("Adding users to the database")
-    
+try:  
     db.add(User(username="headquarter_admin", password="admin", role="headquarter"))
     
     db.add(User(username="city_hospital", password="pwhospital", role="hospital"))
@@ -39,7 +35,6 @@ try:
     db.add(User(username="ambulance_5", password="pwambulance", role="ambulance"))
     
 
-    print("Adding initial patients...")
     db.add(Patient(nhs_number="SX8926481", name="Aadi Aryal", address="12 Elizabeth Street, KY114AZ", medical_history="Diabetic and hypertension. Hay fever; seasonal"))
     db.add(Patient(nhs_number="JH0947362", name="Bandu Acharya", address="4 Woodmill Avenue, KY115HU", medical_history="Asthma and allergies"))
     db.add(Patient(nhs_number="LK5610384", name="Chetan Basnet", address="25 Maple Grove, EH165RL", medical_history="Chronic back pain; previous surgery"))
@@ -52,7 +47,7 @@ try:
     db.add(Patient(nhs_number="YU5064732", name="Jyoti Rana", address="18 Elm Row, EH75BY", medical_history="Post-operative recovery; appendix surgery"))
     db.add(Patient(nhs_number="RT8937465", name="Krishna Thapa", address="5 Regent Road, EH12BN", medical_history="Diabetes and kidney stone history"))
 
-    print("Adding initial hospitals...")
+ 
     db.add(Hospital(hospital_id="city_hospital", address="City Hospital, Edinburgh, EH1 1AA", name="City Hospital", max_capacity=300, current_capacity=50))
     db.add(Hospital(hospital_id="modern_hospital", address="Modern Hospital, Edinburgh, EH2 2BB", name="Modern Hospital", max_capacity=280, current_capacity=80))
     db.add(Hospital(hospital_id="kathmandu_hospital", address="Kathmandu Hospital, Edinburgh, EH3 3CC", name="Kathmandu Hospital", max_capacity=260, current_capacity=90))
@@ -74,7 +69,7 @@ try:
     db.add(Hospital(hospital_id="pokhara_hospital", address="Pokhara Hospital, Edinburgh, EH19 1SS", name="Pokhara Hospital", max_capacity=20, current_capacity=5))
     db.add(Hospital(hospital_id="everest_hospital", address="Everest Hospital, Edinburgh, EH20 2TT", name="Everest Hospital", max_capacity=10, current_capacity=2))
 
-    print("Adding initial ambulances...")
+
     db.add(Ambulance(ambulance_id="ambulance_1", status="available"))
     db.add(Ambulance(ambulance_id="ambulance_2", status="available"))
     db.add(Ambulance(ambulance_id="ambulance_3", status="available"))

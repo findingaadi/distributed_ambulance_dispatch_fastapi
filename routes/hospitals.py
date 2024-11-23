@@ -53,9 +53,6 @@ def update_assignment(
         if user["role"] != "hospital":
             raise HTTPException(status_code=403, detail="Unauthorized access")
 
-        # Log received data
-        print(f"Received payload: assignment_id={assignment_id}, call_details={call_details}, status={status}")
-
         assignment = db.query(Assignment).filter(
             Assignment.assignment_id == assignment_id,
             Assignment.hospital_id == user["username"]
@@ -64,14 +61,13 @@ def update_assignment(
         if not assignment:
             raise HTTPException(status_code=404, detail="Assignment not found")
 
-        # Update call details
         if call_details:
-            assignment.call_details += f"\nHospital Notes: {call_details}"
+            assignment.call_details += f"<br>Hospital Notes: {call_details}"
 
-        # Update status and related fields
-        if status == "received_patient":
+        #update status
+        if status == "Patient arrived at hospital":
             assignment.status = status
-            # Mark ambulance as available
+            #change ambulance to available
             ambulance = db.query(Ambulance).filter(Ambulance.ambulance_id == assignment.ambulance_id).first()
             if ambulance:
                 ambulance.status = "available"

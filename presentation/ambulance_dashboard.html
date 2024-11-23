@@ -2,8 +2,128 @@
 <html>
 <head>
     <title>Ambulance Dashboard</title>
-    <link rel="stylesheet" href="/presentation/css/styles.css">
     <script src="/presentation/js/ambulance_dashboard.js" defer></script>
+    <style>
+        /* General Reset */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background: #f4f7fa;
+    color: #333;
+    padding: 10px;
+}
+
+/* Heading Styles */
+h1 {
+    font-size: 1.8rem;
+    color: #007bff;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+h2 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Button Styles */
+button {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px 0;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+/* Information Sections */
+#patientDetails, #hospitalDetails, #callDetails {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#patientDetails p, #hospitalDetails p, #callDetails p {
+    font-size: 1rem;
+    color: #555;
+    margin: 5px 0;
+}
+
+/* Form Styling */
+form {
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    background: #f9f9f9;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+textarea:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+}
+
+/* Mobile Optimization */
+body {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+#patientDetails, #hospitalDetails, #callDetails, form {
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* Responsive Typography */
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.6rem;
+    }
+
+    h2 {
+        font-size: 1.4rem;
+    }
+
+    button {
+        font-size: 0.9rem;
+    }
+
+    textarea {
+        font-size: 0.9rem;
+    }
+}
+
+    </style>
 </head>
 <body>
     <h1>Ambulances Dashboard</h1>
